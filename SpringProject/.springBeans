@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.18.202109140629-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[true]]></enableImports>
+	<configs>
+		<config>src/main/java/com/edu/di/coffeeshop/coffee4/applicationContext.xml</config>
+		<config>src/main/java/com/edu/di/coffeeshop/coffee5/applicationContext.xml</config>
+		<config>src/main/java/com/edu/di/coffeeshop/coffee6/applicationContext.xml</config>
+		<config>src/main/resources/applicationContext.xml</config>
+		<config>src/main/java/com/edu/di/car/mycar4/appCtx.xml</config>
+		<config>src/main/java/com/edu/di/car/mycar5/appCtx.xml</config>
+		<config>src/main/java/com/edu/di/car/mycar6/appCtx.xml</config>
+	</configs>
+	<autoconfigs>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

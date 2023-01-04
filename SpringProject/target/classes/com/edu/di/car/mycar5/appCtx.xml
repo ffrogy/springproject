@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="tireK"	class="com.edu.di.car.mycar5.KoreaTire"></bean>
+	<bean id="tireA"	class="com.edu.di.car.mycar5.AmericaTire"></bean>
+	<bean id="tireE"	class="com.edu.di.car.mycar5.EuropeTire"></bean>
+	
+	<bean id="car"		class="com.edu.di.car.mycar5.Car">
+		<property name="tire" ref="tireK"></property>
+	</bean>
+
+</beans>

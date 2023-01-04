@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.edu.member">
+
+	<resultMap id="memberResult" type="com.edu.member.dto.MemberDTO">
+		<result property="id"		column="id"/>
+		<result property="pwd"		column="pwd"/>
+		<result property="name"		column="name"/>
+		<result property="email"	column="email"/>
+		<result property="joinDate"	column="joinDate"/>
+	</resultMap>
+	
+	<!-- 로그인 처리 -->
+	<select id="loginByID" parameterType="com.edu.member.dto.MemberDTO" resultType="com.edu.member.dto.MemberDTO">
+		<![CDATA[
+			SELECT	*
+			FROM	t_member
+			WHERE	id = #{id}
+		]]>
+	</select>
+	
+	<!-- 회원 가입 처리 -->
+	<insert id="addMember" parameterType="com.edu.member.dto.MemberDTO">
+		<![CDATA[
+			INSERT INTO t_member 
+					(id, 	pwd, 	name, 		email, 		joinDate)
+			VALUES	(#{id},	#{pwd},	#{name},	#{email}, 	sysdate())
+		]]>
+	</insert>
+	
+	<!-- 회원 전체 목록 추출하기 -->
+	<!-- 최근에 가입한 사람이 위에 나오도록 하자 -->
+	<select id="selectAllMemberList" resultMap="memberResult">
+		<![CDATA[
+			SELECT * FROM t_member ORDER BY joinDate DESC
+		]]>
+	</select>
+
+
+</mapper>   
+
+
+
+
+
