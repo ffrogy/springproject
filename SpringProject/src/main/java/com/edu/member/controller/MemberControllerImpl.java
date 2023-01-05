@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -181,7 +182,67 @@ public class MemberControllerImpl implements MemberController {
 		
 		return mav;
 	} // End - 회원 전체 목록 조회하기
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디에 해당하는 회원 정보 조회 + 폼 출력
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	@RequestMapping(value = "/updateMemberForm.do", method = RequestMethod.GET)
+	public ModelAndView updateMemberForm(String id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		logger.info("MemberControllerImpl 아이디에 해당하는 회원 정보 조회 + 폼출력() 시작");
+
+		// 회원 전체 목록 화면에서 수정을 요청한 id에 해당하는 정보를 찾는 일을 서비스에게 부탁한다.
+		memberDTO = memberService.selectMember(id);
+		logger.info("회원정보조회결과 : " + memberDTO);
 		
+		// 찾아온 회원 정보를 가지고 회원 정보 수정화면으로 넘어간다.
+		ModelAndView mav = new ModelAndView("/member/updateMemberForm");
+		mav.addObject("member", memberDTO);
+		
+		return mav;
+
+	} // End - 아이디에 해당하는 회원 정보 조회 + 폼출력()
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디에 해당하는 회원 정보 수정
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	@RequestMapping(value = "/modifyMember.do", method = RequestMethod.POST)
+	public ModelAndView modifyMember(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		logger.info("MemberControllerImpl 아이디에 해당하는 회원 정보 수정() 시작");
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		
+		int result = memberService.modifyMember(memberDTO);
+		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
+		
+		return mav;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디에 해당하는 회원 정보 삭제
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	@RequestMapping(value = "/removeMember.do", method = RequestMethod.GET)
+	public ModelAndView removeMember(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+	
+		logger.info("MemberControllerImpl 아이디에 해당하는 회원 정보 삭제() 시작");
+		logger.info("JSP에서 넘겨준 회원 아이디 : " + id);
+		
+		request.setCharacterEncoding("UTF-8");
+		
+		int result = memberService.removeMember(id);
+		
+		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
+		
+		return mav;
+	}
+
 	
 } // End - public class MemberControllerImpl
 

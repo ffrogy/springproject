@@ -65,4 +65,42 @@ public class MemberDAOImpl implements MemberDAO {
 		
 	} // End - 회원 전체 목록 조회하기
 
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디에 해당하는 회원 정보 조회 + 폼 출력
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	public MemberDTO selectMember(String id) throws DataAccessException {
+
+		System.out.println("MemberDAOImpl 아이디에 해당하는 회원 정보 조회 + 폼출력()");
+		
+		MemberDTO memberDTO = sqlSession.selectOne(Namespace + ".selectMember", id);
+		return memberDTO;
+		
+	} // End - 아이디에 해당하는 회원 정보 조회 + 폼출력
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디에 해당하는 회원 정보 수정
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	public int updateMember(MemberDTO memberDTO) throws DataAccessException {
+		
+		System.out.println("MemberDAOImpl 아이디에 해당하는 회원 정보 수정()");
+		
+		int result = sqlSession.update(Namespace + ".updateMember", memberDTO);
+		return result;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디에 해당하는 회원 정보 삭제
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	public int deleteMember(String id) throws DataAccessException {
+		
+		System.out.println("MemberDAOImpl 아이디에 해당하는 회원 정보 삭제()");
+		
+		int result = sqlSession.delete(Namespace + ".deleteMember", id);
+		return result;
+	}
+
+
 }

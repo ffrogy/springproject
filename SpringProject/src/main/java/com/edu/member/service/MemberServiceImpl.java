@@ -58,6 +58,41 @@ public class MemberServiceImpl implements MemberService {
 		return memberLists;
 	}
 
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디에 해당하는 회원 정보 조회 + 폼 출력
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	public MemberDTO selectMember(String id) throws DataAccessException {
+
+		logger.info("MemberServiceImpl 아이디에 해당하는 회원 정보 조회 + 폼출력() 시작");
+
+		MemberDTO memberDTO = memberDAO.selectMember(id);
+		return memberDTO;
+
+	} // End - 아이디에 해당하는 회원 정보 조회 + 폼출력()
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디에 해당하는 회원 정보 수정
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	public int modifyMember(MemberDTO memberDTO) throws DataAccessException {
+		
+		logger.info("아이디에 해당하는 회원 정보 수정() 시작");
+		
+		return memberDAO.updateMember(memberDTO);
+	}
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디에 해당하는 회원 정보 삭제
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	public int removeMember(String id) throws DataAccessException {
+	
+		logger.info("아이디에 해당하는 회원 정보 삭제() 시작");
+		
+		return memberDAO.deleteMember(id);
+	}
+
 	
 	
 	
