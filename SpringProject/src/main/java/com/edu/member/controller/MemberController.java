@@ -66,6 +66,16 @@ public interface MemberController {
 	public ModelAndView removeMember(@RequestParam("id") String id,
 									HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	//-----------------------------------------------------------------------------------------------------------
+	// 회원 가입 화면 불러오기(Ajax)
+	//-----------------------------------------------------------------------------------------------------------
+	public String getRegisterAjaxForm() throws Exception;
+	
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디 중복 검사(Ajax)
+	//-----------------------------------------------------------------------------------------------------------
+	public int idCheck(MemberDTO memberDTO) throws Exception;
+	
 	
 
 	

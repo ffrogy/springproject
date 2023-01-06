@@ -32,6 +32,7 @@ if(session.getAttribute("isLogOn") == null || session.getAttribute("isLogOn").eq
 			<td align="center" width="300"><b>이메일</b></td>
 			<td align="center" width="120"><b>가입일자</b></td>
 			<td align="center" width="60"><b>수정</b></td>
+			<td align="center" width="60"><b>삭제(Y/N)</b></td>
 			<td align="center" width="60"><b>삭제</b></td>
 		</tr>
 	<c:forEach var="member" items="${memberLists}">
@@ -42,7 +43,8 @@ if(session.getAttribute("isLogOn") == null || session.getAttribute("isLogOn").eq
 			<td align="center">${member.email}</td>
 			<td align="center">${member.joinDate}</td>
 			<td align="center"><a class="btn btn-sm btn-primary" href="${contextPath}/member/updateMemberForm.do?id=${member.id}">수정</a></td>
-			<td align="center"><a class="btn btn-sm btn-danger"  href="${contextPath}/member/removeMember.do?id=${member.id}">삭제</a></td>
+			<td align="center"><a class="btn btn-sm btn-danger"  href="javascript:removeMember('${member.id}');">삭제 (Yes/No)</a></td>
+			<td align="center"><a class="btn btn-sm btn-warning"  href="${contextPath}/member/removeMember.do?id=${member.id}">삭제</a></td>
 		</tr>
 	</c:forEach>
 		
@@ -52,6 +54,20 @@ if(session.getAttribute("isLogOn") == null || session.getAttribute("isLogOn").eq
 <!-- 하단 메뉴 -->
 <jsp:include page="../common/footer.jsp" flush="false"/>
 
+<script>
+// 회원 정보를 삭제하기 전에 삭제 여부를 확인한다.
+function removeMember(id){
+	// alert("삭제할 회원 아이디 : " + id);
+	// confirm("삭제할 회원 아이디 : " + id);
+	
+	if(!confirm("회원 정보를 삭제하시겠습니까?\n삭제 동의 시 [확인] 버튼을 누르십시오.")){
+		alert("회원 정보 삭제가 취소되었습니다.")
+	} else { // 삭제에 동의하면 삭제에 대한 url요청을 한다.
+		alert("떠나신다니 아쉽습니다.\n#GoodBye")
+		location.href = "/member/removeMember.do?id="+id;
+	}
+}
+</script>
 </body>
 </html>
 

@@ -40,6 +40,11 @@ public interface MemberDAO {
 	// 아이디에 해당하는 회원 정보 삭제
 	//-----------------------------------------------------------------------------------------------------------
 	public int deleteMember(String id) throws DataAccessException;
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디 중복 검사(Ajax)
+	//-----------------------------------------------------------------------------------------------------------
+	public int idCheck(MemberDTO memberDTO) throws DataAccessException;
 	
 	
 } // End - public interface MemberDAO

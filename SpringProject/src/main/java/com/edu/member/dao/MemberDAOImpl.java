@@ -102,5 +102,14 @@ public class MemberDAOImpl implements MemberDAO {
 		return result;
 	}
 
-
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디 중복 검사(Ajax)
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	public int idCheck(MemberDTO memberDTO) throws DataAccessException {
+		
+		System.out.println("MemberDAOImpl 아이디 중복 검사(Ajax)");
+		
+		return sqlSession.selectOne(Namespace + ".idCheck", memberDTO);
+	}
 }

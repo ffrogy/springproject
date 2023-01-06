@@ -18,7 +18,7 @@
 <div class="container">
 	<div class="jumbotron">
 		<div class="container text-center">
-			<h1>도서 쇼핑몰</h1>
+			<h1>Book Store</h1>
 			<p>방문을 환영합니다.</p>
 		</div>
 	</div>
@@ -60,7 +60,7 @@
 				width="80%" height="200px"/>
 				<!-- carousel에 설명을 보여준다. -->
 				<div class="carousel-caption">
-					<h2>책방 내부 시설 32</h2>
+					<h2>책방 내부 시설 3</h2>
 				</div>
 			</div>
 		</div>

@@ -93,6 +93,19 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.deleteMember(id);
 	}
 
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디 중복 검사(Ajax)
+	//-----------------------------------------------------------------------------------------------------------	
+	@Override
+	public int idCheck(MemberDTO memberDTO) throws DataAccessException {
+		
+		logger.info("아이디 중복 검사(Ajax) 시작");
+		int result = memberDAO.idCheck(memberDTO);
+		
+		return result;
+	}
+	
+
 	
 	
 	

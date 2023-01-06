@@ -62,6 +62,16 @@
 			WHERE 	id = #{id}
 		]]>
 	</delete>
+	
+	<!-- 아이디 중복 검사 : 입력한 아이디가 존재하는지 알아낸다. -->
+	<!-- 여기서 나오는 값은 0 또는 1이어야 합니다. -->
+	<select id="idCheck" parameterType="com.edu.member.dto.MemberDTO" resultType="int">
+		<![CDATA[
+			SELECT	COUNT(*)
+			FROM 	t_member
+			WHERE	id = #{id}
+		]]>
+	</select>
 
 </mapper>   
 

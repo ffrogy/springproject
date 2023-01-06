@@ -69,6 +69,7 @@
 					<ul class="dropdown-menu">
 						<li><a href="${contextPath}/member/loginForm.do">로그인</a></li>
 						<li><a href="${contextPath}/member/memberForm.do">회원가입</a></li>
+						<li><a href="${contextPath}/member/registerAjaxForm.do">회원가입(Ajax)</a></li>
 						<li><a href="${contextPath}/member/listMembers.do">회원목록</a></li>
 					</ul>
 				</li>

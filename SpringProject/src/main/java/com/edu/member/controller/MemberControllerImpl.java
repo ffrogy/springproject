@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -221,7 +222,7 @@ public class MemberControllerImpl implements MemberController {
 		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
 		
 		return mav;
-	}
+	} // End - 아이디에 해당하는 회원 정보 수정
 
 	//-----------------------------------------------------------------------------------------------------------
 	// 아이디에 해당하는 회원 정보 삭제
@@ -237,13 +238,40 @@ public class MemberControllerImpl implements MemberController {
 		request.setCharacterEncoding("UTF-8");
 		
 		int result = memberService.removeMember(id);
-		
 		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
 		
 		return mav;
-	}
+	} // End - 아이디에 해당하는 회원 정보 삭제
 
+	//-----------------------------------------------------------------------------------------------------------
+	// 회원 가입 화면 불러오기(Ajax)
+	//-----------------------------------------------------------------------------------------------------------	
+	@Override
+	@RequestMapping(value="/registerAjaxForm.do", method = RequestMethod.GET)
+	public String getRegisterAjaxForm() throws Exception {
+
+		logger.info("MemberControllerImpl 회원 가입 화면 불러오기(Ajax) 시작");
+		
+		return "member/registerAjax";
+	} // 회원 가입 화면 불러오기(Ajax)
 	
+	//-----------------------------------------------------------------------------------------------------------
+	// 아이디 중복 검사(Ajax)
+	//-----------------------------------------------------------------------------------------------------------	
+	@Override
+	@ResponseBody
+	@RequestMapping(value="/idCheck", method = RequestMethod.POST)
+	public int idCheck(MemberDTO memberDTO) throws Exception {
+		
+		logger.info("MemberControllerImpl 아이디 중복 검사(Ajax) 시작");
+		
+		int result = memberService.idCheck(memberDTO);
+		logger.info("MemberControllerImpl 아이디 중복 검사(Ajax) 후 받은 값 : " + result);
+		
+		return result;
+	}
+	
+
 } // End - public class MemberControllerImpl
 
 
