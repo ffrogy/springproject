@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.edu.board">
+
+	<!-- 제일 큰 게시글 번호를 가져오기 -->
+	<select id="maxBno" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT MAX(bno) FROM board;
+		]]>
+	</select>
+	
+	<!-- 게시글 쓰기 OLD -->
+	<insert id="registerOLD" parameterType="com.edu.board.dto.BoardDTO">
+		<![CDATA[
+			INSERT INTO
+			t_board (BNO,		SUBJECT,	CONTENT,	WRITER, 	REG_DATE,	READCOUNT)
+			VALUES	(#{bno},	#{subject}, #{content},	#{writer},	NOW(),		0);
+		]]>
+	</insert>
+	
+	<insert id="insertBoard" parameterType="com.edu.board.dto.BoardDTO">
+		<![CDATA[
+			INSERT INTO
+			t_board (BNO,		SUBJECT,	CONTENT,	WRITER, 	REG_DATE,	READCOUNT)
+			SELECT	IFNULL(MAX(BNO), 0)+1, #{subject}, #{content}, #{writer}, NOW(), 0 FROM t_board
+		]]>
+	</insert>
+
+	<select id="listAll" resultType="com.edu.board.dto.BoardDTO">
+		<![CDATA[
+			SELECT 		bno, subject, content, writer, reg_date, readCount
+			FROM		t_board
+			ORDER BY	bno DESC;
+		]]>
+	</select>
+</mapper>   
+
+
+
+
+

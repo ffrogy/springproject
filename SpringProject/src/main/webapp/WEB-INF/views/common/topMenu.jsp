@@ -73,6 +73,13 @@
 						<li><a href="${contextPath}/member/listMembers.do">회원목록</a></li>
 					</ul>
 				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">게시글 관리<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="${contextPath}/board/boardRegisterForm">게시글 쓰기</a></li>
+						<li><a href="${contextPath}/board/boardList">게시글 전체 목록</a></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 	
