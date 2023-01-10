@@ -5,8 +5,10 @@
 <%	request.setCharacterEncoding("UTF-8"); %>
 <%
 if(session.getAttribute("isLogOn") == null || session.getAttribute("member") == null) {
-	out.println("로그인 후 서비스 이용이 가능합니다.");
-	response.sendRedirect("/main.do");
+	out.println("<script>");
+	out.println("alert('로그인 후 서비스 이용이 가능합니다.')");
+	out.println("location.href='/main.do'");
+	out.println("</script>");
 } else { 
 	String id = (String)session.getAttribute("id");
 }
@@ -23,33 +25,43 @@ if(session.getAttribute("isLogOn") == null || session.getAttribute("member") == 
 <jsp:include page="../common/topMenu.jsp" flush="false"></jsp:include>
 
 	<div class="container">
-	<h1 align="center">BOARD</h1>
-	<a href="${contextPath}/member/logout.do" class="btn btn-danger"><span class="glyphicon glyphicon-log-out">로그아웃</span></a>
-	<br/>
-	<hr/>
-
-	<table class="table table-bordered table-striped table-hover" style="width:1200px; margin:auto;">
-		<tr class="info">
-			<td align="center" width="30"><b>No</b></td>
-			<td align="center" width="100"><b>Subject</b></td>
-			<td align="center" width="130"><b>Content</b></td>
-			<td align="center" width="30"><b>Writer</b></td>
-			<td align="center" width="30"><b>Date</b></td>
-			<td align="center" width="30"><b>Count</b></td>
-		</tr>
-	<c:forEach var="board" items="${boardLists}">
-		<tr>
-			<td align="center">${board.bno}</td>
-			<td align="center">${board.subject}</td>
-			<td align="center">${board.content}</td>
-			<td align="center">${board.writer}</td>
-			<td align="center">${board.reg_date}</td>
-			<td align="center">${board.readCount}</td>
-
-		</tr>
-	</c:forEach>
-		
-	</table>
+	<form class="form-horizontal" id="frm">
+		<div class="form-group">
+			<div>
+				<h2 align="center">BOARD</h2>
+			</div>
+		</div>
+		<p align="center">
+			<button type="button" class="btn btn-primary" onclick="location.href='/board/boardRegisterForm'">게시글 쓰기</button>
+		<table class="table table-bordered table-striped table-hover" style="width:1200px; margin:auto;">
+			<thead>
+				<tr class="info">
+					<th class="col-sm-1 text-center"><b>No</b></th>
+					<th class="col-sm-4 text-center"><b>Subject</b></th>
+					<th class="col-sm-4 text-center"><b>Content</b></th>
+					<th class="col-sm-1 text-center"><b>Writer</b></th>
+					<th class="col-sm-2 text-center"><b>Date</b></th>
+					<th class="col-sm-1 text-center"><b>Count</b></th>
+					<th class="col-sm-1 text-center"><b>Edit</b></th>
+					<th class="col-sm-1 text-center"><b>Delete</b></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${boardList}" var="list">
+					<tr>
+						<td align="center">${list.bno}</td>
+						<td align="center"><a href="${contextPath}/board/boardDetail?bno=${list.bno}">${list.subject}</a></td>
+						<td align="center">${list.content}</td>
+						<td align="center">${list.writer}</td>
+						<td align="center"><fmt:formatDate value="${list.reg_date}" pattern="yyyy-MM-dd a hh:mm:ss"/></td>
+						<td align="right">${list.readCount}</td>
+						<td align="center"><a class="btn btn-sm btn-primary" href="#">수정</a></td>
+						<td align="center"><a class="btn btn-sm btn-warning"  href="#">삭제</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</form>
 </div>
 
 <!-- 하단 메뉴 -->

@@ -21,6 +21,7 @@
 		]]>
 	</insert>
 	
+	<!-- 게시글 등록하기 -->
 	<insert id="insertBoard" parameterType="com.edu.board.dto.BoardDTO">
 		<![CDATA[
 			INSERT INTO
@@ -29,13 +30,40 @@
 		]]>
 	</insert>
 
+	<!-- 게시글 목록 가져오기 -->
 	<select id="listAll" resultType="com.edu.board.dto.BoardDTO">
 		<![CDATA[
-			SELECT 		bno, subject, content, writer, reg_date, readCount
+			SELECT 		BNO,		SUBJECT,	CONTENT,	WRITER, 	REG_DATE,	READCOUNT
 			FROM		t_board
-			ORDER BY	bno DESC;
+			ORDER BY	BNO DESC;
 		]]>
 	</select>
+	
+	<!-- 게시글 번호에 해당하는 게시글의 조회수를 1 증가시키기 -->
+	<update id="updateReadCount" parameterType="int">
+	<![CDATA[
+			UPDATE 		t_board
+			SET			readcount = readcount+1
+			WHERE		bno=#{bno}
+		]]>
+	</update>
+	
+	<!-- 게시글 번호에 해당하는 게시글의 정보를 가져오기 -->
+	<select id="detail" parameterType="int" resultType="com.edu.board.dto.BoardDTO">
+		<![CDATA[
+			SELECT 		bno,		subject,	content,	writer, 	reg_date,	readcount
+			FROM		t_board
+			WHERE		bno=#{bno}
+		]]>
+	</select>
+	
+	<!-- 게시글 번호에 해당하는 게시글의 정보를 삭제하기 -->
+	<delete id="delete" parameterType="int">
+		<![CDATA[
+			DELETE 	FROM	t_board
+			WHERE	bno = #{bno}
+		]]>
+	</delete>
 </mapper>   
 
 

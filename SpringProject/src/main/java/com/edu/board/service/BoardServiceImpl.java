@@ -51,4 +51,27 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.boardList();
 	}
 
+	//-----------------------------------------------------------------------------------------
+	// 게시글 상세 조회 GET
+	//-----------------------------------------------------------------------------------------
+	@Override
+	public BoardDTO boardDetail(int bno) throws Exception {
+
+		logger.info("BoardServiceImpl 게시글 상세 조회 GET() 시작");
+		
+		// 게시글 번호에 해당하는 게시글의 자료를 가져오기 전에 조회수를 1 증가시킨다.
+		boardDAO.updateReadCount(bno);
+		return boardDAO.boardDetail(bno);
+	}
+
+	//-----------------------------------------------------------------------------------------
+	// 게시글 번호에 해당하는 게시글 삭제하기
+	//-----------------------------------------------------------------------------------------
+	@Override
+	public int boardDelete(int bno) {
+
+		logger.info("BoardServiceImpl 게시글 번호에 해당하는 게시글 삭제하기() 시작");
+		return boardDAO.boardDelete(bno);
+	}
+
 }

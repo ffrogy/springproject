@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,10 +73,52 @@ public class BoardController {
 		
 		model.addAttribute("boardList", boardList);
 		
-	} // End - 게시글 화면 불러오기 
+	} // End - 게시글 목록 보기
 	
+	//-----------------------------------------------------------------------------------------
+	// 게시글 상세 조회 GET
+	//-----------------------------------------------------------------------------------------
+	@RequestMapping(value = "/boardDetail", method = RequestMethod.GET)
+	public String boardDetail(Model model, HttpServletRequest request) throws Exception {
+		
+		logger.info("BoardController 게시글 상세 조회 GET() ==> " + Integer.parseInt((String) request.getParameter("bno")));
+		
+		// 게시물 번호에 해당하는 게시글의 정보를 가져온다.
+		BoardDTO boardDTO = boardService.boardDetail(Integer.parseInt((String)request.getParameter("bno")));
+		model.addAttribute("boardDetail", boardDTO);
+		
+		return "/board/boardDetail";
+		
+	} // End - 게시글 상세 조회 GET
 	
+	//-----------------------------------------------------------------------------------------
+	// 게시글 번호에 해당하는 게시글 삭제하기
+	//-----------------------------------------------------------------------------------------
+	@ResponseBody
+	@RequestMapping(value = "/boardDelete", method = RequestMethod.POST)
+	public String boardDelete(Model model, HttpServletRequest request) throws Exception {
+		
+		logger.info("BoardController 게시글 번호에 해당하는 게시글 삭제하기 " + 
+					request.getParameter("bno"));
+		
+		if(boardService.boardDelete(Integer.parseInt((String)request.getParameter("bno")))==1) {
+			return "Y";
+		} else {
+			return "N";
+		}
+	} // End - 게시글 번호에 해당하는 게시글 삭제하기
 	
+	//-----------------------------------------------------------------------------------------
+	// 게시글 번호에 해당하는 게시글 삭제하기
+	//-----------------------------------------------------------------------------------------
+	@RequestMapping(value = "/boardUpdateForm", method = RequestMethod.POST)
+	public String boardUpdateForm(Model model, HttpServletRequest request) throws Exception {
+		
+		BoardDTO boardDTO = boardService.boardDetail(Integer.parseInt((String)request.getParameter("bno")));
+		
+		model.addAttribute("boardDetail", boardDTO);
+		return "/board/boardUpdate";
+	}
 	
 	
 } // End - public class BoardController 

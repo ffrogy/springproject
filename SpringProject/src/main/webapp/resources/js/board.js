@@ -45,4 +45,58 @@ function fn_boardRegister() {
 			alert("게시글을 등록하는데 실패하였습니다.");
 		}
 	});
+} // End - function fn_boardRegister()
+
+//-----------------------------------------------------------------------------------------
+// 게시글 관리 컨트롤러
+//-----------------------------------------------------------------------------------------
+function fn_boardDelete(bno) {
+
+// 삭제를 진행하기 전 먼저 삭제 여부를 확인한다.
+	if(!confirm("게시글을 삭제하시겠습니까?\n삭제하려면 [확인]버튼을 눌러주세요.")) {
+		alert("게시글 삭제를 취소하였습니다.");
+	} else { // [확인] 버튼을 눌렀을 경우
+		$.ajax({
+			type : 			"POST",
+			url: 			"/board/boardDelete",
+			data:			{bno : bno},
+			success: 		function(data) {
+				if(data == "Y") {
+					alert("게시글의 삭제가 완료되었습니다.");
+					location.href = "board/boardList";
+				}
+			},
+			error: 			function(data){
+				alert("게시글 삭제에 실패하였습니다.(오류 발생)")
+			},
+			done: 			function(data){
+				alert("요청 성공");
+			},
+			fail: 			function(data){
+				alert("요청 실패");
+			},
+			always: 		function(data){
+				alert("요청 완료");
+			}
+		});
+	}
+} // End - function fn_boardDelete(bno)
+
+//-----------------------------------------------------------------------------------------
+// 게시글 수정 화면 불러오기
+// form에 action과 method가 없기 때문에 여기에서 만든다.
+// <form action="/board/boardUpdateForm", method="POST">
+// 전송할 bno를 담아놓은 것이 없으므로 input을 만들어서 bno를 서버에 전송한다.
+// form.append($('만들태그', {태그에 사용할 속성 : 값, 속성 : 값, ...})
+//-----------------------------------------------------------------------------------------
+function fn_boardUpdateForm(bno) {
+	
+	var f = $("#frm");
+	f.attr("action", "/board/boardUpdateForm");
+	f.attr("method", "POST");
+	// <input type="hidden" name="bno" vlaue="${boardDetail.bno}"/>
+	f.append($('<input/>', {type: 'hidden', name: 'bno', value: bno}));
+	f.appendTo('body');
+	f.submit();
 }
+
