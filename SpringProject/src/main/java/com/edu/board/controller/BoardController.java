@@ -1,5 +1,6 @@
 package com.edu.board.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.edu.board.dto.BoardDTO;
 import com.edu.board.service.BoardService;
@@ -81,12 +84,15 @@ public class BoardController {
 	@RequestMapping(value = "/boardDetail", method = RequestMethod.GET)
 	public String boardDetail(Model model, HttpServletRequest request) throws Exception {
 		
-		logger.info("BoardController 게시글 상세 조회 GET() ==> " + Integer.parseInt((String) request.getParameter("bno")));
+		logger.info("BoardController 게시글 상세 조회 " + 
+				Integer.parseInt((String) request.getParameter("bno")));
+	
+		int bno		= Integer.parseInt((String)request.getParameter("bno"));
+		int flag	= Integer.parseInt((String)request.getParameter("flag"));	
 		
-		// 게시물 번호에 해당하는 게시글의 정보를 가져온다.
-		BoardDTO boardDTO = boardService.boardDetail(Integer.parseInt((String)request.getParameter("bno")));
+		// 게시글 번호에 해당하는 게시글의 정보를 가져온다.
+		BoardDTO boardDTO = boardService.boardDetail(bno, flag);
 		model.addAttribute("boardDetail", boardDTO);
-		
 		return "/board/boardDetail";
 		
 	} // End - 게시글 상세 조회 GET
@@ -108,17 +114,89 @@ public class BoardController {
 		}
 	} // End - 게시글 번호에 해당하는 게시글 삭제하기
 	
-	//-----------------------------------------------------------------------------------------
-	// 게시글 번호에 해당하는 게시글 삭제하기
-	//-----------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------
+	// 게시글 수정화면 불러오기 - 조회수가 증가되면 안된다.
+	//-----------------------------------------------------------------------------------------------------------
 	@RequestMapping(value = "/boardUpdateForm", method = RequestMethod.POST)
 	public String boardUpdateForm(Model model, HttpServletRequest request) throws Exception {
 		
-		BoardDTO boardDTO = boardService.boardDetail(Integer.parseInt((String)request.getParameter("bno")));
+		logger.info("BoardController 게시글 수정화면 불러오기() 시작");
+		
+		int bno		= Integer.parseInt((String)request.getParameter("bno"));
+		int flag	= Integer.parseInt((String)request.getParameter("flag"));	
+		
+		// 게시글 번호에 해당하는 정보를 수정하기 위한 데이터를 가져온다. - 조회수가 증가되면 안된다.
+		// BoardDTO boardDTO = boardDAO.boardDetail(Integer.parseInt((String)request.getParameter("bno")));
+		BoardDTO boardDTO = boardService.boardDetail(bno, flag);
 		
 		model.addAttribute("boardDetail", boardDTO);
 		return "/board/boardUpdate";
-	}
+		
+	} // End - 게시글 수정화면 불러오기
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 게시글 번호에 해당하는 게시글 내용(제목, 글쓴이, 내용) 수정하기
+	//-----------------------------------------------------------------------------------------------------------
+	@ResponseBody
+	@RequestMapping(value = "/boardUpdate", method = RequestMethod.POST)
+	public String boardUpdate(Model model, BoardDTO boardDTO) throws Exception {
+		
+		logger.info("BoardController 게시글 번호에 해당하는 게시글 내용(제목, 글쓴이, 내용) 수정하기() 시작");
+		
+		if(boardService.boardUpdate(boardDTO) == 1) {
+			return "Y";
+		} else {
+			return "N";
+		}
+		
+	} // End - 게시글 번호에 해당하는 게시글 내용(제목, 글쓴이, 내용) 수정하기()
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 게시글 목록 보여주기 (Paging 1 처리)
+	//-----------------------------------------------------------------------------------------------------------
+	@RequestMapping(value = "/boardList1", method = RequestMethod.GET)
+	public ModelAndView boardList1(Model model, @RequestParam(defaultValue="1") int pageNum, @RequestParam(defaultValue="10") int pageSize) throws Exception {
+		
+		logger.info("BoardController 게시글 목록 보여주기 (Paging 1 처리) 시작");
+		
+		// Mapper에서는 파라미터를 2개 이상 받아들이지 않아서, Map에다 넘겨줄 값들이 저장한다. 
+		HashMap<String, Integer> pageList = new HashMap<String, Integer>();
+		pageList.put("pageNum", 	pageNum);
+		pageList.put("pageSize",	pageSize);
+		
+		for(int key : pageList.values()) {
+			System.out.println(key);
+		}
+				
+		// 전체 게시글 수를 구한다.
+		int totalCount = boardService.boardListTotalCount1();
+		
+		// 요청된 페이지에 해당하는 게시글을 가져온다.
+		List<BoardDTO> boardList = boardService.boardListPaging1(pageList);
+		System.out.println("찾은 목록 ==> " + boardList);
+		
+		ModelAndView mav = new ModelAndView("/board/boardList1");
+		mav.addObject("pageNum", 	pageNum); 	// 현재 페이지 번호
+		mav.addObject("boardList", 	boardList); // 현재 페이지 번호에 해당하는 게시글 목록
+		mav.addObject("totalCount", totalCount);//전체 게시글 건수
+		
+		return mav;
+		
+	} // End - 게시글 목록 보여주기 (Paging 1 처리)
 	
 	
-} // End - public class BoardController 
+	
+	
+	
+	
+} // End - public class BoardController
+
+
+
+
+
+
+
+
+
+

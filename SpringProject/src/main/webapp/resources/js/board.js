@@ -100,3 +100,54 @@ function fn_boardUpdateForm(bno) {
 	f.submit();
 }
 
+
+//----------------------------------------------------------------------------------------------------------
+//게시글 번호에 해당하는 게시글의 내용(제목, 글쓴이, 내용)을 수정 요청하기
+//----------------------------------------------------------------------------------------------------------
+function fn_boardUpdate() {
+	
+	let	bno		= $("#bno").val();
+	let	subject	= $("#subject").val();
+	let	writer	= $("#writer").val();
+	let	content	= $("#content").val();
+	
+	// alert(bno + ":" + subject + ":" + writer + ":" + content);
+	
+	$.ajax({
+		type:			"POST",
+		url:			"/board/boardUpdate",
+		data:			{bno:bno, subject:subject, writer:writer, content:content},
+		success:		function(data) {
+			if(data == "Y") {
+				alert("게시글 수정이 완료되었습니다.");
+				fn_boardDetail(bno);
+			} else {
+				alert("게시글 수정이 되지 않았습니다.\n\n잠시 후에 다시 해주십시오.");
+			}
+		},
+		error:			function(data) {
+			alert("실패");
+			console.log(data);
+		}
+	});
+	
+} // End - function fn_boardUpdate()
+
+//----------------------------------------------------------------------------------------------------------
+//게시글 번호에 해당하는 상세페이지로 이동하기
+//----------------------------------------------------------------------------------------------------------
+function fn_boardDetail(bno) {
+	location.href = "/board/boardDetail?bno=" + bno + "&flag=1";	
+} // End - function fn_boardDetail(bno)
+
+
+
+
+
+
+
+
+
+
+
+

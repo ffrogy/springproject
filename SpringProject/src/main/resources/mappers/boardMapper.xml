@@ -64,7 +64,40 @@
 			WHERE	bno = #{bno}
 		]]>
 	</delete>
+
+
+	<!-- 게시글 번호에 해당하는 게시글 내용(제목, 글쓴이, 내용)을 수정하기 -->
+	<update id="update">
+		<![CDATA[
+			UPDATE	t_board
+			SET		subject = #{subject}, writer = #{writer}, content = #{content}
+			WHERE	bno = #{bno}
+		]]>
+	</update>
+	
+	<!-- 전체 게시글 수 가져오기 (Paging 1 처리) -->
+	<select id="boardListTotalCount1" resultType="int">
+		<![CDATA[
+			SELECT	COUNT(*)
+			FROM	T_BOARD
+		]]>
+	</select>
+
+	<!-- 전체 게시글 수 가져오기 (Paging 1 처리) -->
+	<!-- 요청된 페이지에 대한 게시글 목록을 요청된 개수만큼 찾아오기 -->
+	<select id="boardListPaging1" parameterType="hashmap" resultType="com.edu.board.dto.BoardDTO">
+		<![CDATA[
+			SELECT	*
+			FROM	t_board
+			ORDER BY bno DESC
+			LIMIT #{startRow}, #{pageSize}
+		]]>
+	</select>
+
+
 </mapper>   
+
+
 
 
 

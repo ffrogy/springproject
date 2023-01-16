@@ -62,6 +62,12 @@
 						<li role="presentation" class="divider"></li>
 						<li><a href="${contextPath}/exam/exam3/doD">회원정보 (객체)</a></li>
 						<li><a href="${contextPath}/exam/exam3/doE">회원정보 (Map)</a></li>
+						<li role="presentation" class="divider"></li>
+						<li><a href="${contextPath}/util/zipcode/address">주소검색 (Daum API)</a></li>
+						<li><a href="${contextPath}/util/datepicker/datepicker">날짜 선택</a></li>
+						<li role="presentation" class="divider"></li>
+						<li><a href="${contextPath}/util/selectrow/selectRow1">Row와 Column선택 1</a></li>
+						<li><a href="${contextPath}/util/selectrow/selectRow2">Row와 Column선택 2</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">

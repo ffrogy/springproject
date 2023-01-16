@@ -18,7 +18,7 @@ if(session.getAttribute("isLogOn") == null || session.getAttribute("member") == 
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Board List</title>
 </head>
 <body>
 <!-- 상단 메뉴 -->
@@ -33,7 +33,7 @@ if(session.getAttribute("isLogOn") == null || session.getAttribute("member") == 
 		</div>
 		<p align="center">
 			<button type="button" class="btn btn-primary" onclick="location.href='/board/boardRegisterForm'">게시글 쓰기</button>
-		<table class="table table-bordered table-striped table-hover" style="width:1200px; margin:auto;">
+		<table class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr class="info">
 					<th class="col-sm-1 text-center"><b>No</b></th>
@@ -42,21 +42,17 @@ if(session.getAttribute("isLogOn") == null || session.getAttribute("member") == 
 					<th class="col-sm-1 text-center"><b>Writer</b></th>
 					<th class="col-sm-2 text-center"><b>Date</b></th>
 					<th class="col-sm-1 text-center"><b>Count</b></th>
-					<th class="col-sm-1 text-center"><b>Edit</b></th>
-					<th class="col-sm-1 text-center"><b>Delete</b></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${boardList}" var="list">
 					<tr>
 						<td align="center">${list.bno}</td>
-						<td align="center"><a href="${contextPath}/board/boardDetail?bno=${list.bno}">${list.subject}</a></td>
+						<td align="center"><a href="${contextPath}/board/boardDetail?bno=${list.bno}&flag=0">${list.subject}</a></td>
 						<td align="center">${list.content}</td>
 						<td align="center">${list.writer}</td>
 						<td align="center"><fmt:formatDate value="${list.reg_date}" pattern="yyyy-MM-dd a hh:mm:ss"/></td>
 						<td align="right">${list.readCount}</td>
-						<td align="center"><a class="btn btn-sm btn-primary" href="#">수정</a></td>
-						<td align="center"><a class="btn btn-sm btn-warning"  href="#">삭제</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

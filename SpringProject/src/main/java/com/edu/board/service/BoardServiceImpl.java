@@ -1,5 +1,6 @@
 package com.edu.board.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -55,14 +56,17 @@ public class BoardServiceImpl implements BoardService {
 	// 게시글 상세 조회 GET
 	//-----------------------------------------------------------------------------------------
 	@Override
-	public BoardDTO boardDetail(int bno) throws Exception {
+	 public BoardDTO boardDetail(int bno, int flag) throws Exception {
 
-		logger.info("BoardServiceImpl 게시글 상세 조회 GET() 시작");
+		logger.info("BoardServiceImpl 게시글 상세 조회() 시작");
 		
-		// 게시글 번호에 해당하는 게시글의 자료를 가져오기 전에 조회수를 1 증가시킨다.
-		boardDAO.updateReadCount(bno);
+		// 게시글 번호에 해당하는 게시글의 자료를 가져오기 전에 조회수를 1증가 시킨다.
+		if(flag == 0) {
+			boardDAO.updateReadCount(bno);
+		}
 		return boardDAO.boardDetail(bno);
-	}
+		
+	} // End - 게시글 상세 조회
 
 	//-----------------------------------------------------------------------------------------
 	// 게시글 번호에 해당하는 게시글 삭제하기
@@ -73,5 +77,44 @@ public class BoardServiceImpl implements BoardService {
 		logger.info("BoardServiceImpl 게시글 번호에 해당하는 게시글 삭제하기() 시작");
 		return boardDAO.boardDelete(bno);
 	}
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 게시글 번호에 해당하는 게시글 내용(제목, 글쓴이, 내용) 수정하기
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	public int boardUpdate(BoardDTO boardDTO) {
+
+		logger.info("BoardServiceImpl 게시글 번호에 해당하는 게시글 내용(제목, 글쓴이, 내용) 수정하기() 시작");
+		return boardDAO.boardUpdate(boardDTO);
+		
+	} // End - 게시글 번호에 해당하는 게시글 내용(제목, 글쓴이, 내용) 수정하기
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 전체 게시글 수 가져오기 (Paging 1 처리)
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	public int boardListTotalCount1() throws Exception {
+		logger.info("BoardServiceImpl 전체 게시글 수 가져오기 (Paging 1 처리) 시작");
+		return boardDAO.boardListTotalCount1();
+	}
+
+	//-----------------------------------------------------------------------------------------------------------
+	// 요청된 페이지에 해당하는 게시글을 가져온다.
+	//-----------------------------------------------------------------------------------------------------------
+	@Override
+	public List<BoardDTO> boardListPaging1(HashMap<String, Integer> pageList) throws Exception {
+		logger.info("BoardServiceImpl 요청된 페이지에 해당하는 게시글을 가져오기() 시작");
+		System.out.println("페이지 정보보기 => " + pageList.get("pageNum"));
+		System.out.println("페이지 정보보기 => " + pageList.get("pageSize"));
+		return boardDAO.boardListPaging1(pageList);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
